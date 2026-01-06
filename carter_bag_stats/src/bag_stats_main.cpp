@@ -5,7 +5,7 @@
 // will always be like this
 int main(int argc, char *argv[]) {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<MyPublisher>());
+  rclcpp::spin(std::make_shared<BagStats>());
   rclcpp::shutdown();
   return 0;
 }

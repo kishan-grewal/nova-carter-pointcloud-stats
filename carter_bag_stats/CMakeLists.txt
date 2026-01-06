@@ -10,6 +10,8 @@ find_package(ament_cmake REQUIRED)
 # my additions:
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -30,6 +32,8 @@ target_include_directories(bag_stats PUBLIC
 ament_target_dependencies(bag_stats
   rclcpp
   std_msgs
+  nav_msgs
+  sensor_msgs
 )
 
 # standard, add to install dir so ros2 run can find it
