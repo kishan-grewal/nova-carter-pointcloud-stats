@@ -19,7 +19,7 @@ add_executable(bag_stats
   src/main.cpp
 )
 
-# standard, tell compiler where to find headers
+# standard, tell compiler where to find headers (/include)
 target_include_directories(bag_stats PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>

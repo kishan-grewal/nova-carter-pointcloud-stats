@@ -5,7 +5,7 @@ using namespace std::chrono_literals; // using namepsace -> convenient syntax
 #include <memory> // shared ptr
 #include <string> // std::string and to_string
 
-#include "main.hpp"
+#include "carter_bag_stats/main.hpp"
 #include "rclcpp/rclcpp.hpp" // node, init, spin, shutdown, RCLCPP_INFO (#define)
 #include "std_msgs/msg/string.hpp" // std_msgs::msg::String
 
