@@ -16,7 +16,8 @@ find_package(std_msgs REQUIRED)
 
 # add executable like normal cpp
 add_executable(bag_stats
-  src/main.cpp
+  src/bag_stats_main.cpp
+  src/bag_stats.cpp
 )
 
 # standard, tell compiler where to find headers (/include)

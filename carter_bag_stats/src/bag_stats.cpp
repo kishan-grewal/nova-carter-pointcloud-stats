@@ -5,7 +5,6 @@ using namespace std::chrono_literals; // using namepsace -> convenient syntax
 #include <memory> // shared ptr
 #include <string> // std::string and to_string
 
-#include "carter_bag_stats/main.hpp"
 #include "rclcpp/rclcpp.hpp" // node, init, spin, shutdown, RCLCPP_INFO (#define)
 #include "std_msgs/msg/string.hpp" // std_msgs::msg::String
 
@@ -23,12 +22,13 @@ private:
     RCLCPP_INFO(this->get_logger(), message.data.c_str());
     publisher_->publish(message);
   }
-  rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
+  rclcpp::TimerBase::SharedPtr timer_;
 };
 
+// will always be like this
 int main(int argc, char *argv[]) {
-  rclcpp::init(argc, argv); // will always be like this
+  rclcpp::init(argc, argv);
   rclcpp::spin(std::make_shared<MyPublisher>());
   rclcpp::shutdown();
   return 0;
