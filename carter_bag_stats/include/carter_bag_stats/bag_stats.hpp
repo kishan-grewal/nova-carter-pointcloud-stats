@@ -8,6 +8,8 @@ using namespace std::chrono_literals; // using namepsace -> convenient syntax
 #include "rclcpp/rclcpp.hpp" // node, init, spin, shutdown, RCLCPP_INFO (#define)
 #include "std_msgs/msg/string.hpp" // std_msgs::msg::String
 
+#pragma once
+
 class MyPublisher : public rclcpp::Node {
 public:
   MyPublisher();

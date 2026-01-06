@@ -1,27 +1,13 @@
-#include <chrono>                     // std::chrono::milliseconds
-using namespace std::chrono_literals; // using namepsace -> convenient syntax
-// e.g. stop including (std) or use suffix like ms (chrono)
+#include "carter_bag_stats/bag_stats.hpp"
 
-#include <memory> // shared ptr
-#include <string> // std::string and to_string
+MyPublisher::MyPublisher() : Node("my_publisher") {
+  publisher_ = this->create_publisher<std_msgs::msg::String>("topic", 10);
+  timer_ = this->create_wall_timer(1000ms, [this]() { this->callback(); });
+}
 
-#include "rclcpp/rclcpp.hpp" // node, init, spin, shutdown, RCLCPP_INFO (#define)
-#include "std_msgs/msg/string.hpp" // std_msgs::msg::String
-
-class MyPublisher : public rclcpp::Node {
-public:
-  MyPublisher() : Node("my_publisher") {
-    publisher_ = this->create_publisher<std_msgs::msg::String>("topic", 10);
-    timer_ = this->create_wall_timer(1000ms, [this]() { this->callback(); });
-  }
-
-private:
-  void callback() {
-    auto message = std_msgs::msg::String();
-    message.data = "Hello World!";
-    RCLCPP_INFO(this->get_logger(), message.data.c_str());
-    publisher_->publish(message);
-  }
-  rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
-  rclcpp::TimerBase::SharedPtr timer_;
-};
+void MyPublisher::callback() {
+  auto message = std_msgs::msg::String();
+  message.data = "Hello World!";
+  RCLCPP_INFO(this->get_logger(), message.data.c_str());
+  publisher_->publish(message);
+}
