@@ -25,11 +25,3 @@ private:
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
   rclcpp::TimerBase::SharedPtr timer_;
 };
-
-// will always be like this
-int main(int argc, char *argv[]) {
-  rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<MyPublisher>());
-  rclcpp::shutdown();
-  return 0;
-}
