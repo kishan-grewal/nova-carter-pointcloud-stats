@@ -23,7 +23,6 @@ private:
 
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr stats_pub_;
   rclcpp::TimerBase::SharedPtr stats_timer_;
-  mutable std::mutex stats_mutex_;
 
   // DEFAULT stats_period parameter value
   int stats_period_ms_{10};  // 1 ms is generally the minimum accurate value

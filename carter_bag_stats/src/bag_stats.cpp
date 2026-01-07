@@ -45,32 +45,27 @@ void BagStats::chassis_odom_callback_(const nav_msgs::msg::Odometry::SharedPtr m
   double wx = angular.x;
   double wy = angular.y;
 
-  {
-    std::lock_guard<std::mutex> lock(stats_mutex_);
+  odom_count_++;
 
-    odom_count_++;
+  if (odom_count_ > 1) {
+    double dx = x - last_x_;
+    double dy = y - last_y_;
+    total_distance_ += std::sqrt(dx * dx + dy * dy);
+  }
+  last_x_ = x;
+  last_y_ = y;
 
-    if (odom_count_ > 1) {
-      double dx = x - last_x_;
-      double dy = y - last_y_;
-      total_distance_ += std::sqrt(dx * dx + dy * dy);
-    }
-    last_x_ = x;
-    last_y_ = y;
+  total_speed_ += std::sqrt(vx * vx + vy * vy);
+  average_speed_ = total_speed_ / odom_count_;
 
-    total_speed_ += std::sqrt(vx * vx + vy * vy);
-    average_speed_ = total_speed_ / odom_count_;
-
-    if (wx * wx + wy * wy > max_turn_ * max_turn_) {
-      max_turn_ = std::sqrt(wx * wx + wy * wy);
-    }
+  if (wx * wx + wy * wy > max_turn_ * max_turn_) {
+    max_turn_ = std::sqrt(wx * wx + wy * wy);
   }
 }
 
 void BagStats::front_lidar_callback_(const sensor_msgs::msg::PointCloud2::SharedPtr msg) {
   // const auto &stamp = msg->header.stamp;
   // const auto &data = msg->data;
-  std::lock_guard<std::mutex> lock(stats_mutex_);
 
   points_count_++;
 
@@ -85,7 +80,7 @@ void BagStats::front_lidar_callback_(const sensor_msgs::msg::PointCloud2::Shared
 }
 
 void BagStats::stats_callback() const {
-  std::lock_guard<std::mutex> lock(stats_mutex_);
+  // prints stats
   auto message = std_msgs::msg::String();
   message.data = 
     "Odom: " + std::to_string(odom_count_) + 
