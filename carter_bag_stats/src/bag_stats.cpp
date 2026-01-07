@@ -15,7 +15,7 @@ BagStats::BagStats() : Node("bag_stats") {
 
   chassis_odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
       "/chassis/odom", odom_qos,
-      [this](const nav_msgs::msg::Odometry::SharedPtr msg) {
+      [this](const nav_msgs::msg::Odometry::SharedPtr msg) {  
         this->chassis_odom_callback_(msg);
       });
 
