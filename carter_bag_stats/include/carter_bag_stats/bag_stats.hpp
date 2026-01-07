@@ -26,7 +26,7 @@ private:
   mutable std::mutex stats_mutex_;
 
   // DEFAULT stats_period parameter value
-  int stats_period_ms_{100};  // 1 ms is generally the minimum accurate value
+  int stats_period_ms_{10};  // 1 ms is generally the minimum accurate value
   
   // stats to protect with the lockguard:
   size_t odom_count_{};

@@ -25,3 +25,9 @@ clang-format -i src/nova-carter-pointcloud-stats/carter_bag_stats/{src,include/c
 ```bash
 rosdep install --from-paths src --ignore-src
 ```
+
+```bash
+ros2 run carter_bag_stats bag_stats --ros-args -p stats_period:=1000
+```
+
+threads in my multi exec = max number of concurrent callbacks
