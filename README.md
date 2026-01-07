@@ -21,3 +21,7 @@ ros2 run carter_bag_stats bag_stats
 ```bash
 clang-format -i src/nova-carter-pointcloud-stats/carter_bag_stats/{src,include/carter_bag_stats}/*
 ```
+
+```bash
+rosdep install --from-paths src --ignore-src
+```

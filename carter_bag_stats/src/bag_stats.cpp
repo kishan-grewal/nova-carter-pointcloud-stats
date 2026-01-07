@@ -1,25 +1,34 @@
 #include "carter_bag_stats/bag_stats.hpp"
 
 #include <chrono>                     // std::chrono::milliseconds
-using namespace std::chrono_literals; // using namepsace -> convenient syntax
+// using namespace std::chrono_literals; // using namepsace -> convenient syntax
 // e.g. stop including (std) or use suffix like ms (chrono)
 
-BagStats::BagStats() : Node("my_publisher") {
+#include <cmath> 
+
+BagStats::BagStats() : Node("bag_stats") {
+  rclcpp::QoS odom_qos(10);
+  odom_qos.reliability(rclcpp::ReliabilityPolicy::Reliable);
+
+  rclcpp::QoS lidar_qos(10);
+  lidar_qos.reliability(rclcpp::ReliabilityPolicy::BestEffort);
+
   chassis_odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
-      "/chassis/odom", 10,
+      "/chassis/odom", odom_qos,
       [this](const nav_msgs::msg::Odometry::SharedPtr msg) {
         this->chassis_odom_callback_(msg);
       });
 
   front_lidar_sub_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
-      "/front_3d_lidar/lidar_points", 10,
+      "/front_3d_lidar/lidar_points", lidar_qos,
       [this](const sensor_msgs::msg::PointCloud2::SharedPtr msg) {
         this->front_lidar_callback_(msg);
       });
-
-  stats_pub_ = this->create_publisher<std_msgs::msg::String>("topic", 10);
+  
+  stats_period_ms_ = this->declare_parameter("stats_period", stats_period_ms_);
+  stats_pub_ = this->create_publisher<std_msgs::msg::String>("/bag_stats", 10);
   stats_timer_ =
-      this->create_wall_timer(1000ms, [this]() { this->stats_callback(); });
+      this->create_wall_timer(std::chrono::milliseconds(stats_period_ms_), [this]() { this->stats_callback(); });
 }
 
 void BagStats::chassis_odom_callback_(const nav_msgs::msg::Odometry::SharedPtr msg) {

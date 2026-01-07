@@ -13,8 +13,7 @@ public:
   BagStats();
 
 private:
-  void
-  chassis_odom_callback_(const nav_msgs::msg::Odometry::SharedPtr msg);
+  void chassis_odom_callback_(const nav_msgs::msg::Odometry::SharedPtr msg);
   void front_lidar_callback_(const sensor_msgs::msg::PointCloud2::SharedPtr msg);
   void stats_callback() const;
 
@@ -25,6 +24,9 @@ private:
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr stats_pub_;
   rclcpp::TimerBase::SharedPtr stats_timer_;
   mutable std::mutex stats_mutex_;
+
+  // DEFAULT stats_period parameter value
+  int stats_period_ms_{100};  // 1 ms is generally the minimum accurate value
   
   // stats to protect with the lockguard:
   size_t odom_count_{};
